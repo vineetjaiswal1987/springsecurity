@@ -1,8 +1,10 @@
 package com.edigest.journalAppLatest.controller;
 
 import com.edigest.journalAppLatest.Repository.UserEntryRepo;
+import com.edigest.journalAppLatest.api.response.WeatherResponse;
 import com.edigest.journalAppLatest.entity.User;
 import com.edigest.journalAppLatest.service.UserEntryService;
+import com.edigest.journalAppLatest.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class UserEntryController {
 
     @Autowired
     private UserEntryRepo userEntryRepo;
+    @Autowired
+    private WeatherService weatherService;
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user){
@@ -39,5 +43,17 @@ public class UserEntryController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+//    b8ab396efa2d4f1f942133355262502
+    @GetMapping
+    public ResponseEntity<?> greeting(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");
+        String greeting="";
+        if(weatherResponse != null){
+                greeting= ", Weather feels like" +weatherResponse.getCurrent().getWind_dir();
+            }
+        return new ResponseEntity<>("HI "+authentication.getName() +greeting,HttpStatus.OK);
+
+    }
 
 }
