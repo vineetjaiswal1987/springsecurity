@@ -1,25 +1,33 @@
 package com.edigest.journalAppLatest.service;
 
+import com.edigest.journalAppLatest.AppCache.AppCache;
 import com.edigest.journalAppLatest.api.response.WeatherResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Service
 public class WeatherService {
-    private static final String apiKey="79f4b26b22df4390a26142847262502";
 
-    private static final String API="http://api.weatherapi.com/v1/current.json?key=API_KEY&q=CITY&aqi=no";
+    @Value("${weather.api.key}")
+    private String apiKey;
+
+    @Autowired
+    private AppCache  appCache;
+//    private static final String API="http://api.weatherapi.com/v1/current.json?key=API_KEY&q=CITY&aqi=no";
+
     @Autowired
     private RestTemplate restTemplate;
     public WeatherResponse getWeather(String city){
-        String finalAPI = String.format(
-                "http://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no",
-                apiKey, city
-        );
-//        String finalAPI=API.replace("CITY",city).replace("key",API_KEY);
+//        String finalAPI = String.format(
+//                "http://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no",
+//                apiKey, city
+//        );
+        String finalAPI=appCache.APP_CACHE.get("weather_api").replace("<city>",city).replace("<apiKey>",apiKey);
         ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class);
         WeatherResponse body = response.getBody();
         return body;
