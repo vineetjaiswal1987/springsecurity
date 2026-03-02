@@ -27,6 +27,7 @@ public class WeatherService {
 //                "http://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no",
 //                apiKey, city
 //        );
+        System.out.println("AppCache contents: " + appCache.APP_CACHE);
         String finalAPI=appCache.APP_CACHE.get("weather_api").replace("<city>",city).replace("<apiKey>",apiKey);
         ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class);
         WeatherResponse body = response.getBody();
