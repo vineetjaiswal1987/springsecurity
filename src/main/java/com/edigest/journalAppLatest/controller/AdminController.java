@@ -1,5 +1,6 @@
 package com.edigest.journalAppLatest.controller;
 
+import com.edigest.journalAppLatest.AppCache.AppCache;
 import com.edigest.journalAppLatest.entity.User;
 import com.edigest.journalAppLatest.service.UserEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
+    @Autowired
+    private AppCache appCache;
 
     @Autowired
     private UserEntryService userEntryService;
@@ -31,4 +35,9 @@ public class AdminController {
         userEntryService.saveAdmin(user);
     }
 
+    @GetMapping("clear-app-cache")
+    public void clearAppCache()
+    {
+        appCache.init();
+    }
 }

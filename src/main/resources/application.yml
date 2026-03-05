@@ -1,15 +1,31 @@
 spring:
-  profiles:
-    active: dev
+  data:
+    mongodb:
+      uri: mongodb+srv://vineet:3Cfp3Zw1B9a57Tsa@cluster0.3c8gqrp.mongodb.net/journaldb?retryWrites=true&w=majority
+      database: journaldb
+      auto-index-creation: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "vineetj393@gmail.com"
+    password: "dqajkmjvnixfvoud"   # app password without spaces
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 
-#logging:
-#  level:
-#    com:
-#      edigest:
-#        journalAppLatest:
-#          service:
-#            UserEntryService: OFF
+server:
+  port: 8080
+  servlet:
+    context-path: /journal
+
+weather:
+  api:
+    key: 24e9c8febff24da6bb8135436262702
 
 

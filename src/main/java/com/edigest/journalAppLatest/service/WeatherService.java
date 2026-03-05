@@ -2,6 +2,7 @@ package com.edigest.journalAppLatest.service;
 
 import com.edigest.journalAppLatest.AppCache.AppCache;
 import com.edigest.journalAppLatest.api.response.WeatherResponse;
+import com.edigest.journalAppLatest.constants.PlaceHolders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -27,8 +28,8 @@ public class WeatherService {
 //                "http://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no",
 //                apiKey, city
 //        );
-        System.out.println("AppCache contents: " + appCache.APP_CACHE);
-        String finalAPI=appCache.APP_CACHE.get("weather_api").replace("<city>",city).replace("<apiKey>",apiKey);
+        System.out.println("AppCache contents: " + appCache.appCache);
+        String finalAPI=appCache.appCache.get(AppCache.keys.WEATHER_API.toString()).replace(PlaceHolders.CITY,city).replace(PlaceHolders.API_KEY,apiKey);
         ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class);
         WeatherResponse body = response.getBody();
         return body;
